@@ -8,9 +8,19 @@ Version: 1.0
 
 class AdvancedFieldsForm
 {
-  public function display(){
+  public static function display(){
     include ('views/fieldsFormView.php');
-    add_shortcode( 'customFieldForm', $this->display() );
+  }
+
+  public static function display_form_results(){
+      if( isset($_REQUEST['search']) == 'advanced' ) {
+          $path = plugin_dir_path( __FILE__ );
+          include_once($path.'controllers/fieldsFormController.php');
+          die();
+      }
   }
 }
+
+add_action('init','AdvancedFieldsForm::display_form_results');
+add_shortcode( 'customFieldForm', 'AdvancedFieldsForm::display' );
 ?>
