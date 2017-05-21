@@ -28,7 +28,6 @@ if (count($errores_validacion)==0){
   $params['precio_minimo'] = $precio_minimo;
   $params['precio_maximo'] = $precio_maximo;
   $results = $conn->theFieldsQuery($params);
-  print_r($results);
   include_once($path.'../views/fieldsArchiveView.php');
 }
 
