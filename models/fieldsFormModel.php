@@ -60,7 +60,6 @@
     public function getActividadesCat(){
       $taxonomy = 'actividad_categories';
       $terms = get_terms($taxonomy); // Get all terms of a taxonomy
-      print_r($terms);
       return $terms;
     }
 
@@ -114,7 +113,7 @@
                  'taxonomy' => 'actividad_categories',
                  'field'    => 'term_id',
                  'terms'    => $_GET['categoria'],
-                 'include_children' => false
+                 'include_children' => true
              )
          ));
       }
