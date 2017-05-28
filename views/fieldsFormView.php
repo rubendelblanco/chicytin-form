@@ -5,19 +5,29 @@
   $conn = new FieldsFormModel($wpdb);
   $actividades = $conn->getActividadesValue();
   $ciudades = $conn->getLocalidadValue();
+  $categorias = $conn->getActividadesCat();
+  $subcategories = $conn->getActividadesCat();
  ?>
 <form method="get" id="advanced-searchform" role="search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 
     <h3><?php _e( 'Búsqueda por campos', 'textdomain' ); ?></h3>
     <input type="hidden" name="search" value="advanced">
 
-    <label for="tipo_de_actividad" class=""><?php _e( 'Actividad: ', 'textdomain' ); ?></label><br>
-    <select name="tipo_de_actividad" id="tipo_de_actividad">
+    <label for="categoria" class=""><?php _e( 'Categorías: ', 'textdomain' ); ?></label><br>
+    <select name="categoria" id="categoria">
         <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
-        <?php foreach($actividades as $a): ?>
-        <option value="<?php echo $a['meta_value']?>"><?php _e( $a['meta_value'], 'textdomain' ); ?></option>
+        <?php foreach($categorias as $a): ?>
+        <?php if ($a->parent==0):?>
+        <option value="<?php echo $a->term_id?>"><?php _e( $a->name, 'textdomain' ); ?></option>
+          <?php foreach ($subcategories as $sub): ?>
+            <?php if ($sub->parent==$a->term_id):?>
+              <option value="<?php echo $sub->term_id?>">— <?php _e( $sub->name, 'textdomain' ); ?></option>
+            <?php endif;?>
+          <?php endforeach;?>
+        <?php endif; ?>
         <?php endforeach;?>
     </select>
+
     <label for="ciudad" class=""><?php _e( 'Ciudad/localidad: ', 'textdomain' ); ?></label><br>
     <select name="ciudad" id="ciudad">
         <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
@@ -28,13 +38,5 @@
     <label for="edad" class=""><?php _e( 'Edad del/la niño/a: ', 'textdomain' ); ?></label><br>
     <input type="number" name="edad" id="edad" min="1" max="20" size="2">
 
-   <label for="precio" class=""><?php _e( 'Precio: ', 'textdomain' ); ?></label><br>
-    <select name="precio" id="precio">
-        <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
-        <option value="10-40">10-40 EUR</option>
-        <option value="40-70">40-70 EUR</option>
-        <option value="70-100">70-100 EUR</option>
-        <option value="100-130">100-130 EUR</option>
-    </select>
-    <input type="submit" id="searchsubmit" value="Search" />
+    <input type="submit" id="searchsubmit" value="Buscar" />
 </form>

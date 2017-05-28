@@ -43,6 +43,7 @@ function actividades_post() {
         'show_ui' => true,
         'query_var' => true,
         'rewrite' => true,
+        'has_archive'  => true,
         'capability_type' => 'post',
         'hierarchical' => false,
         'menu_position' => null,
@@ -52,6 +53,34 @@ function actividades_post() {
 
     register_post_type( 'Actividad', $args ); /* Registramos y a funcionar */
 }
+
+function create_actividad_taxonomies() {
+    $labels = array(
+        'name'              => _x( 'Categories', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Category', 'taxonomy singular name' ),
+        'search_items'      => __( 'Search Categories' ),
+        'all_items'         => __( 'All Categories' ),
+        'parent_item'       => __( 'Parent Category' ),
+        'parent_item_colon' => __( 'Parent Category:' ),
+        'edit_item'         => __( 'Edit Category' ),
+        'update_item'       => __( 'Update Category' ),
+        'add_new_item'      => __( 'Add New Category' ),
+        'new_item_name'     => __( 'New Category Name' ),
+        'menu_name'         => __( 'Categories' ),
+    );
+
+    $args = array(
+        'hierarchical'      => true, // Set this to 'false' for non-hierarchical taxonomy (like tags)
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'categories' ),
+    );
+
+    register_taxonomy( 'actividad_categories', array( 'actividad' ), $args );
+}
+add_action( 'init', 'create_actividad_taxonomies', 0 );
 
 add_action( 'init', 'actividades_post' );
 add_action('init','AdvancedFieldsForm::display_form_results');

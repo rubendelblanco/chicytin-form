@@ -53,6 +53,18 @@
       return $this->conn->get_results($query,ARRAY_A);
     }
 
+    /*getActividadesCat
+    *@return categorias de actividades
+    */
+
+    public function getActividadesCat(){
+      $taxonomy = 'actividad_categories';
+      $terms = get_terms($taxonomy); // Get all terms of a taxonomy
+      print_r($terms);
+      return $terms;
+    }
+
+
     /*
     * theFilterQuery
     * @return el resultado que todos estamos esperando: la consulta del formulario
@@ -61,14 +73,6 @@
       $posts = $wpdb->prefix.'posts';
       $postmeta = $wpdb->prefix.'postmeta';
       $meta_args = [];
-
-      //tipo de actividad
-      if ($params['actividad']!='null'){
-        array_push($meta_args, array(
-          'key' => 'tipo_de_actividad',
-          'value' =>  $params['actividad']
-        ));
-      }
 
       //localidad o ciudad
       if ($params['ciudad']!='null'){
@@ -95,19 +99,25 @@
         ));
       }
 
-      //precio
-
-      array_push($meta_args,array(
-        'key' => 'precio',
-        'value' =>  array($params['precio_minimo'], $params['precio_maximo']),
-        'compare' => 'BETWEEN',
-        'type' => 'numeric'
-      ));
-
       $args = array(
         'post_type' => 'actividad',
         'meta_query' => $meta_args
       );
+
+      if ($_GET['categoria']!='null'){
+        $args = array(
+          'post_type' => 'actividad',
+          'meta_query' => $meta_args,
+          'tax_query' => array(
+          'relation' => 'AND',
+             array(
+                 'taxonomy' => 'actividad_categories',
+                 'field'    => 'term_id',
+                 'terms'    => $_GET['categoria'],
+                 'include_children' => false
+             )
+         ));
+      }
 
       return new WP_Query($args);
     }
