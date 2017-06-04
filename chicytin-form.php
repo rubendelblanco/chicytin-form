@@ -80,8 +80,36 @@ function create_actividad_taxonomies() {
 
     register_taxonomy( 'actividad_categories', array( 'actividad' ), $args );
 }
-add_action( 'init', 'create_actividad_taxonomies', 0 );
 
+function create_localidad_taxonomies() {
+    $labels = array(
+        'name'              => _x( 'Localidades/Provincias', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Localidad/Provincia', 'taxonomy singular name' ),
+        'search_items'      => __( 'Buscar localidad/provincia' ),
+        'all_items'         => __( 'Todas las localidades y provincias' ),
+        'parent_item'       => __( 'Parent' ),
+        'parent_item_colon' => __( 'Parent:' ),
+        'edit_item'         => __( 'Editar Localidades/Provincias' ),
+        'update_item'       => __( 'Editar Localidad/Provincia' ),
+        'add_new_item'      => __( 'Añadir nueva localidad/provincia' ),
+        'new_item_name'     => __( 'Nueva Localidad/Provincia' ),
+        'menu_name'         => __( 'Localidades/Provincias' ),
+    );
+
+    $args = array(
+        'hierarchical'      => true, // Set this to 'false' for non-hierarchical taxonomy (like tags)
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'localidades' ),
+    );
+
+    register_taxonomy( 'localidad_categories', array( 'actividad' ), $args );
+}
+
+add_action( 'init', 'create_actividad_taxonomies', 0 );
+add_action('init', 'create_localidad_taxonomies', 0);
 add_action( 'init', 'actividades_post' );
 add_action('init','AdvancedFieldsForm::display_form_results');
 add_shortcode( 'customFieldForm', 'AdvancedFieldsForm::display' );
