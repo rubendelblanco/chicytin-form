@@ -7,6 +7,8 @@
   $ciudades = $conn->getLocalidadValue();
   $categorias = $conn->getActividadesCat();
   $subcategories = $conn->getActividadesCat();
+  $provincias = $conn->getProvinciasValue();
+  print_r(json_encode($provincias));
  ?>
  <style>
 .floating-box {
@@ -37,17 +39,22 @@
       </select>
     </div>
     <div class="floating-box">
-    <label for="ciudad" class=""><?php _e( 'Ciudad/localidad: ', 'textdomain' ); ?></label>
-      <select name="ciudad" id="ciudad">
+    <label for="provincia" class=""><?php _e( 'Provincia: ', 'textdomain' ); ?></label>
+      <select name="provincia" id="provincia">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
-          <?php foreach($ciudades as $a): ?>
-          <option value="<?php echo $a['meta_value']?>"><?php _e( $a['meta_value'], 'textdomain' ); ?></option>
+          <?php foreach($provincias as $p): ?>
+          <option value="<?php echo $p->term_id;?>"><?php _e( $p->name, 'textdomain' ); ?></option>
           <?php endforeach;?>
       </select>
     </div>
     <div class="floating-box">
       <label for="edad" class=""><?php _e( 'Edad del/la niño/a: ', 'textdomain' ); ?></label>
-      <input type="number" name="edad" id="edad" min="1" max="20" size="2">
+      <select name="edad" id="edad">
+        <option value="1"> 0-3 años</option>
+        <option value="2"> 4-6 años </option>
+        <option value="3"> 7-9 años</option>
+        <option value="4"> 10-12 años </option>
+      </select>
     </div>
     <div class="floating-box">
       <input type="submit" id="searchsubmit" value="Buscar" />

@@ -19,11 +19,26 @@
 
     /*
     * getLocalidadValue
-    * @return meta_value
+    * @return localidades y provincias taxonomy
     */
     public function getLocalidadValue(){
-      $query = "SELECT DISTINCT (meta_value) FROM $this->postmeta WHERE meta_key='ciudad'";
-      return $this->conn->get_results($query,ARRAY_A);
+      $taxonomy = 'localidad_categories';
+      $terms = get_terms($taxonomy,ARRAY_A); // Get all terms of a taxonomy
+      return $terms;
+    }
+
+    /*
+    * getProvinciasValue
+    * @return provincias
+    */
+    public function getProvinciasValue(){
+      $taxonomy = 'localidad_categories';
+      $provincias = [];
+      $terms = get_terms($taxonomy); // Get all terms of a taxonomy
+      foreach ($terms as $term){
+        if ($term->parent==0) array_push($provincias,$term);
+      }
+      return $provincias;
     }
 
     /*
