@@ -51,9 +51,6 @@
     <label for="localidad" class=""><?php _e( 'Localidad: ', 'textdomain' ); ?></label>
       <select name="localidad" id="localidad">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
-          <?php foreach($localidades as $l): ?>
-          <option value="<?php echo $p->term_id;?>"><?php _e( $p->name, 'textdomain' ); ?></option>
-          <?php endforeach;?>
       </select>
     </div>
     <div class="floating-box">
@@ -69,3 +66,8 @@
       <input type="submit" id="searchsubmit" value="Buscar" />
     </div>
 </form>
+<script>
+  jQuery(document).ready(function(){
+    var localidades = <?php echo json_encode($localidades); ?>;
+  });
+</script>
