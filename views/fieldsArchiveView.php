@@ -4,8 +4,8 @@
 	<?php if ( $results->have_posts() ) : ?>
 		<header class="page-header">
 			<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				the_archive_title( '<h1 class="page-title archive-description taxonomy-archive-description taxonomy-description">', '</h1>' );
+				the_archive_description( '<div class="taxonomy-description archive-description">', '</div>' );
 			?>
 		</header><!-- .page-header -->
 	<?php endif; ?>
@@ -17,16 +17,22 @@
 		if ( $results->have_posts() ) : ?>
 			<?php
 			/* Start the Loop */
-			while ( $results->have_posts() ) : $results->the_post();
-
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/post/content', get_post_format() );
-
-			endwhile;
+			while ( $results->have_posts() ) : $results->the_post();?>
+				<article class="entry">
+					<header class="entry-header">
+						<h2 class="entry-title" itemprop="headline">
+							<a href="<?php the_permalink(); ?>" rel="bookmark">
+							<?php the_title() ?></a>
+						</h2>
+						<p class="entry-meta">
+							<time class="entry-time" itemprop="datePublished"><?php the_date(); ?></time> By <?php the_author() ?>
+						</p>
+					</header>
+					<div class="entry-content" itemprop="text">
+						<?php the_excerpt(); ?>
+					</div>
+				</article>
+			<?php endwhile;
 
 			the_posts_pagination( array(
 				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
@@ -36,13 +42,11 @@
 
 		else :
 
-			get_template_part( 'template-parts/post/content', 'none' );
+			echo 'No hay resultados con esa búsqueda.';
 
 		endif; ?>
 
 		</main><!-- #main -->
 	</div><!-- #primary -->
-	<?php get_sidebar(); ?>
+	<?php get_sidebar('sidebar-primary'); genesis(); ?>
 </div><!-- .wrap -->
-
-<?php get_footer();
