@@ -69,5 +69,19 @@
 <script>
   jQuery(document).ready(function(){
     var localidades = <?php echo json_encode($localidades); ?>;
+    jQuery('#provincia').change(function(){
+      jQuery("#localidad option[value!='null']").remove();
+      var provinciaSeleccionada = jQuery('#provincia option:selected').attr('value');
+      if (provinciaSeleccionada=='null') return;
+
+      for (var i = 0; i< localidades.length; i++){
+          if (localidades[i]['parent']==provinciaSeleccionada){
+            jQuery('#localidad').append(
+              '<option value="'+localidades[i]['term_id']+'">'+localidades[i]['name']+'</option>'
+            );
+          }
+      }
+
+    });
   });
 </script>
