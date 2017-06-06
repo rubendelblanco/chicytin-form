@@ -4,7 +4,7 @@
   global $wpdb;
   $conn = new FieldsFormModel($wpdb);
   $actividades = $conn->getActividadesValue();
-  $ciudades = $conn->getLocalidadValue();
+  $localidades = $conn->getLocalidadesValue();
   $categorias = $conn->getActividadesCat();
   $subcategories = $conn->getActividadesCat();
   $provincias = $conn->getProvinciasValue();
@@ -43,6 +43,15 @@
       <select name="provincia" id="provincia">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
           <?php foreach($provincias as $p): ?>
+          <option value="<?php echo $p->term_id;?>"><?php _e( $p->name, 'textdomain' ); ?></option>
+          <?php endforeach;?>
+      </select>
+    </div>
+    <div class="floating-box">
+    <label for="localidad" class=""><?php _e( 'Localidad: ', 'textdomain' ); ?></label>
+      <select name="localidad" id="localidad">
+          <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
+          <?php foreach($localidades as $l): ?>
           <option value="<?php echo $p->term_id;?>"><?php _e( $p->name, 'textdomain' ); ?></option>
           <?php endforeach;?>
       </select>

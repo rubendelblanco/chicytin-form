@@ -21,10 +21,14 @@
     * getLocalidadValue
     * @return localidades y provincias taxonomy
     */
-    public function getLocalidadValue(){
+    public function getLocalidadesValue(){
       $taxonomy = 'localidad_categories';
-      $terms = get_terms($taxonomy,ARRAY_A); // Get all terms of a taxonomy
-      return $terms;
+      $localidades = [];
+      $terms = get_terms($taxonomy); // Get all terms of a taxonomy
+      foreach ($terms as $term){
+        if ($term->parent!=0) array_push($localidades,$term);
+      }
+      return $localidades;
     }
 
     /*
