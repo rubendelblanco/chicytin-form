@@ -8,7 +8,6 @@
   $categorias = $conn->getActividadesCat();
   $subcategories = $conn->getActividadesCat();
   $provincias = $conn->getProvinciasValue();
-  print_r(json_encode($provincias));
  ?>
  <style>
 .floating-box {
@@ -56,6 +55,7 @@
     <div class="floating-box">
       <label for="edad" class=""><?php _e( 'Edad del/la niño/a: ', 'textdomain' ); ?></label>
       <select name="edad" id="edad">
+        <option value="0"> Todas las edades </option>
         <option value="1"> 0-3 años</option>
         <option value="2"> 4-6 años </option>
         <option value="3"> 7-9 años</option>

@@ -92,28 +92,11 @@
       $postmeta = $wpdb->prefix.'postmeta';
       $meta_args = [];
 
-      //localidad o ciudad
-      if ($params['ciudad']!='null'){
-        array_push($meta_args, array(
-          'key' => 'tipo_de_actividad',
-          'value' =>  $params['actividad']
-        ));
-      }
-
-      //edad minima y maxima
+      //rango de edades
       if ($params['edad']!='null'){
         array_push($meta_args,array(
-          'key' => 'edad_minima',
-          'value' =>  $params['edad'],
-          'compare' => '<=',
-          'type' => 'numeric'
-        ));
-
-        array_push($meta_args,array(
-          'key' => 'edad_maxima',
-          'value' =>  $params['edad'],
-          'compare' => '>=',
-          'type' => 'numeric'
+          'key' => 'edad',
+          'value' =>  $params['edad']
         ));
       }
 
@@ -122,19 +105,43 @@
         'meta_query' => $meta_args
       );
 
-      if ($_GET['categoria']!='null'){
-        $args = array(
-          'post_type' => 'actividad',
-          'meta_query' => $meta_args,
-          'tax_query' => array(
-          'relation' => 'AND',
-             array(
-                 'taxonomy' => 'actividad_categories',
-                 'field'    => 'term_id',
-                 'terms'    => $_GET['categoria'],
-                 'include_children' => true
-             )
-         ));
+
+      if ($_GET['categoria']!='null' or $_GET['provincia']!='null' or $_GET['localidad']!='null'){
+        $args['tax_query'] = array('relation' => 'AND');
+
+        if ($_GET['categoria']!='null'){
+            array_push($args['tax_query'],
+            array(
+              'taxonomy' => 'actividad_categories',
+              'field'    => 'term_id',
+              'terms'    => $_GET['categoria'],
+              'include_children' => true
+            )
+          );
+        }
+
+        if ($_GET['provincia']!='null'){
+            array_push($args['tax_query'],
+            array(
+              'taxonomy' => 'localidad_categories',
+              'field'    => 'term_id',
+              'terms'    => $_GET['provincia'],
+              'include_children' => true
+            )
+          );
+        }
+
+        if ($_GET['localidad']!='null'){
+            array_push($args['tax_query'],
+            array(
+              'taxonomy' => 'localidad_categories',
+              'field'    => 'term_id',
+              'terms'    => $_GET['localidad'],
+              'include_children' => true
+            )
+          );
+        }
+
       }
 
       return new WP_Query($args);
