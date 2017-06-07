@@ -69,7 +69,8 @@
 <script>
   jQuery(document).ready(function(){
     var localidades = <?php echo json_encode($localidades); ?>;
-    jQuery('#provincia').change(function(){
+
+    function colocarLocalidades(){
       jQuery("#localidad option[value!='null']").remove();
       var provinciaSeleccionada = jQuery('#provincia option:selected').attr('value');
       if (provinciaSeleccionada=='null') return;
@@ -81,7 +82,12 @@
             );
           }
       }
+    };
 
+    colocarLocalidades();
+    jQuery('#provincia').change(function(){
+      colocarLocalidades();
     });
+
   });
 </script>

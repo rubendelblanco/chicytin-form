@@ -93,10 +93,17 @@
       $meta_args = [];
 
       //rango de edades
-      if ($params['edad']!='null'){
+      if ($params['edad']!='0'){
         array_push($meta_args,array(
-          'key' => 'edad',
-          'value' =>  $params['edad']
+           'relation' => 'OR',
+            array(
+            'key' => 'edad',
+            'value' =>  $params['edad']
+          ),
+          array(
+            'key' => 'edad',
+            'value' => '0'
+          )
         ));
       }
 
