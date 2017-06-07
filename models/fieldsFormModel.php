@@ -152,6 +152,14 @@
       }
 
       return new WP_Query($args);
+
+      /*En caso de tener que implementar en Genesis:
+      comentar return new WP_Query($args);
+      get_header();
+      genesis_custom_loop($args);
+      get_footer();
+      */
+
     }
   }
 ?>
