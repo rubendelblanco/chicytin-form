@@ -110,7 +110,7 @@
       $args = array(
         'post_type' => 'actividad',
         'meta_query' => $meta_args,
-        'posts_per_page' => 200
+        'posts_per_page' => -1
       );
 
 
