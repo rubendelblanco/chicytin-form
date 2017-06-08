@@ -152,6 +152,13 @@
 
       }
 
+      //implementacion en framework genesis
+      if (function_exists ('genesis')){
+        get_header();
+        genesis_custom_loop($args);
+        get_footer();
+      }
+      else
       return new WP_Query($args);
 
       /*En caso de tener que implementar en Genesis:
