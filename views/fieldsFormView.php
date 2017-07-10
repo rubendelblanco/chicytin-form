@@ -38,6 +38,22 @@
       </select>
     </div>
     <div class="floating-box">
+      <label for="subcategoria" class=""><?php _e( 'Subcategoría: ', 'textdomain' ); ?></label>
+      <select name="subcategoria" id="subcategoria">
+          <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
+          <?php foreach($categorias as $a): ?>
+          <?php if ($a->parent==0):?>
+          <option value="<?php echo $a->term_id?>"><?php _e( $a->name, 'textdomain' ); ?></option>
+            <?php foreach ($subcategories as $sub): ?>
+              <?php if ($sub->parent==$a->term_id):?>
+                <option value="<?php echo $sub->term_id?>">— <?php _e( $sub->name, 'textdomain' ); ?></option>
+              <?php endif;?>
+            <?php endforeach;?>
+          <?php endif; ?>
+          <?php endforeach;?>
+      </select>
+    </div>
+    <div class="floating-box">
     <label for="provincia" class=""><?php _e( 'Provincia: ', 'textdomain' ); ?></label>
       <select name="provincia" id="provincia">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
@@ -88,6 +104,12 @@
     jQuery('#provincia').change(function(){
       colocarLocalidades();
     });
+
+    jQuery.getJSON("/wp-admin/admin-ajax.php",
+                {action: 'get_subcategorias', data1: 'data1value', data2: 'data2value'},
+        function(data) { //Procesamiento de los datos de vuelta }
+ 
+    })
 
   });
 </script>
