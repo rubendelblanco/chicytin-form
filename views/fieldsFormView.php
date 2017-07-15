@@ -1,9 +1,9 @@
 <?php
   $path = plugin_dir_path( __FILE__ );
   include_once($path.'../models/fieldsFormModel.php');
+  include_once ($path.'../controllers/taxonomiesJSONController.php');
   global $wpdb;
   $conn = new FieldsFormModel($wpdb);
-  $actividades = $conn->getActividadesValue();
   $localidades = $conn->getLocalidadesValue();
   $categorias = $conn->getActividadesCat();
   $subcategories = $conn->getActividadesCat();
@@ -17,6 +17,7 @@
     margin: 10px;
 }
 </style>
+
 <form method="get" id="advanced-searchform" role="search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 
     <h3><?php _e( 'Búsqueda por campos', 'textdomain' ); ?></h3>
@@ -28,11 +29,6 @@
           <?php foreach($categorias as $a): ?>
           <?php if ($a->parent==0):?>
           <option value="<?php echo $a->term_id?>"><?php _e( $a->name, 'textdomain' ); ?></option>
-            <?php foreach ($subcategories as $sub): ?>
-              <?php if ($sub->parent==$a->term_id):?>
-                <option value="<?php echo $sub->term_id?>">— <?php _e( $sub->name, 'textdomain' ); ?></option>
-              <?php endif;?>
-            <?php endforeach;?>
           <?php endif; ?>
           <?php endforeach;?>
       </select>
@@ -41,16 +37,6 @@
       <label for="subcategoria" class=""><?php _e( 'Subcategoría: ', 'textdomain' ); ?></label>
       <select name="subcategoria" id="subcategoria">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
-          <?php foreach($categorias as $a): ?>
-          <?php if ($a->parent==0):?>
-          <option value="<?php echo $a->term_id?>"><?php _e( $a->name, 'textdomain' ); ?></option>
-            <?php foreach ($subcategories as $sub): ?>
-              <?php if ($sub->parent==$a->term_id):?>
-                <option value="<?php echo $sub->term_id?>">— <?php _e( $sub->name, 'textdomain' ); ?></option>
-              <?php endif;?>
-            <?php endforeach;?>
-          <?php endif; ?>
-          <?php endforeach;?>
       </select>
     </div>
     <div class="floating-box">
@@ -85,6 +71,7 @@
 <script>
   jQuery(document).ready(function(){
     var localidades = <?php echo json_encode($localidades); ?>;
+    var categorias = <?php echo json_encode (cfGetNestedCategorias()); ?>
 
     function colocarLocalidades(){
       jQuery("#localidad option[value!='null']").remove();
@@ -100,16 +87,25 @@
       }
     };
 
+    function colocarSubcategorias(){
+      jQuery("#subcategoria option[value!='null']").remove();
+      var categoriaSeleccionada = jQuery('#categoria option:selected').attr('value');
+      if (categoriaSeleccionada=='null') return;
+
+      for (var i = 0; i< categorias[categoriaSeleccionada]['subs'].length; i++){
+          jQuery('#subcategoria').append(
+            '<option value="'+categorias[categoriaSeleccionada]['subs'][i]['sub_id']+'">'+categorias[categoriaSeleccionada]['subs'][i]['sub_name']+'</option>'
+          );
+      }
+    };
+
     colocarLocalidades();
     jQuery('#provincia').change(function(){
       colocarLocalidades();
     });
-
-    jQuery.getJSON("/wp-admin/admin-ajax.php",
-                {action: 'get_subcategorias', data1: 'data1value', data2: 'data2value'},
-        function(data) { //Procesamiento de los datos de vuelta }
- 
-    })
+    jQuery('#categoria').change(function(){
+      colocarSubcategorias();
+    });
 
   });
 </script>

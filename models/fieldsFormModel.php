@@ -82,6 +82,15 @@
       return $terms;
     }
 
+    /*
+    * getActividadesSubcats
+    * @params $cat_id
+    * @return todas las subcategorias de una categoria padre
+    */
+    public function getActividadesSubcats($cat_id){
+      $subcats = get_term_children($cat_id, 'actividad_categories');
+      return $subcats;
+    }
 
     /*
     * theFilterQuery

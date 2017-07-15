@@ -108,12 +108,12 @@ function create_localidad_taxonomies() {
     register_taxonomy( 'localidad_categories', array( 'actividad' ), $args );
 }
 
-include (plugin_dir_path( __FILE__ ).'controllers/ajaxCallsController.php');
 
-add_action( 'wp_ajax_get_subcategorias', 'cf_get_subcategorias' );
 add_action( 'init', 'create_actividad_taxonomies', 0 );
 add_action('init', 'create_localidad_taxonomies', 0);
 add_action( 'init', 'actividades_post' );
 add_action('init','AdvancedFieldsForm::display_form_results');
+add_action( 'wp_ajax_nopriv_get_subcategorias', 'cf_get_subcategorias' );
+add_action( 'wp_ajax_get_subcategorias', 'cf_get_subcategorias' );
 add_shortcode( 'customFieldForm', 'AdvancedFieldsForm::display' );
 ?>
