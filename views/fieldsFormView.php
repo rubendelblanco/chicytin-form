@@ -1,7 +1,7 @@
 <?php
   $path = plugin_dir_path( __FILE__ );
   include_once($path.'../models/fieldsFormModel.php');
-  include_once ($path.'../controllers/taxonomiesJSONController.php');
+  include_once ($path.'../controllers/taxonomiesController.php');
   global $wpdb;
   $conn = new FieldsFormModel($wpdb);
   $localidades = $conn->getLocalidadesValue();
