@@ -132,7 +132,18 @@
               'taxonomy' => 'actividad_categories',
               'field'    => 'term_id',
               'terms'    => $_GET['categoria'],
-              'include_children' => true
+              'include_children' => false
+            )
+          );
+        }
+
+        if ($_GET['subcategoria']!='null'){
+            array_push($args['tax_query'],
+            array(
+              'taxonomy' => 'actividad_categories',
+              'field'    => 'term_id',
+              'terms'    => $_GET['subcategoria'],
+              'include_children' => false
             )
           );
         }
@@ -143,7 +154,7 @@
               'taxonomy' => 'localidad_categories',
               'field'    => 'term_id',
               'terms'    => $_GET['provincia'],
-              'include_children' => true
+              'include_children' => false
             )
           );
         }
@@ -154,7 +165,18 @@
               'taxonomy' => 'localidad_categories',
               'field'    => 'term_id',
               'terms'    => $_GET['localidad'],
-              'include_children' => true
+              'include_children' => false
+            )
+          );
+        }
+
+        if ($_GET['distrito']!='null'){
+            array_push($args['tax_query'],
+            array(
+              'taxonomy' => 'localidad_categories',
+              'field'    => 'term_id',
+              'terms'    => $_GET['distrito'],
+              'include_children' => false
             )
           );
         }
@@ -169,13 +191,6 @@
       }
       else
       return new WP_Query($args);
-
-      /*En caso de tener que implementar en Genesis:
-      comentar return new WP_Query($args);
-      get_header();
-      genesis_custom_loop($args);
-      get_footer();
-      */
 
     }
   }

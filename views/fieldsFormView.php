@@ -4,7 +4,7 @@
   include_once ($path.'../controllers/taxonomiesController.php');
   global $wpdb;
   $conn = new FieldsFormModel($wpdb);
-  $localidades = $conn->getLocalidadesValue();
+  $localidades = $conn->getLocalidadesValue(); //also distritos
   $categorias = $conn->getActividadesCat();
   $subcategories = $conn->getActividadesCat();
   $provincias = $conn->getProvinciasValue();
@@ -55,6 +55,12 @@
       </select>
     </div>
     <div class="floating-box">
+    <label for="distrito" class=""><?php _e( 'Distrito: ', 'textdomain' ); ?></label>
+      <select name="distrito" id="distrito">
+          <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
+      </select>
+    </div>
+    <div class="floating-box">
       <label for="edad" class=""><?php _e( 'Edad del/la niño/a: ', 'textdomain' ); ?></label>
       <select name="edad" id="edad">
         <option value="0"> Todas las edades </option>
@@ -87,6 +93,20 @@
       }
     };
 
+    function colocarDistritos(){
+      jQuery("#distrito option[value!='null']").remove();
+      var localidadSeleccionada = jQuery('#localidad option:selected').attr('value');
+      if (localidadSeleccionada=='null') return;
+
+      for (var i = 0; i< localidades.length; i++){
+          if (localidades[i]['parent']==localidadSeleccionada){
+            jQuery('#distrito').append(
+              '<option value="'+localidades[i]['term_id']+'">'+localidades[i]['name']+'</option>'
+            );
+          }
+      }
+    };
+
     function colocarSubcategorias(){
       jQuery("#subcategoria option[value!='null']").remove();
       var categoriaSeleccionada = jQuery('#categoria option:selected').attr('value');
@@ -105,6 +125,9 @@
     });
     jQuery('#categoria').change(function(){
       colocarSubcategorias();
+    });
+    jQuery('#localidad').change(function(){
+      colocarDistritos();
     });
 
   });

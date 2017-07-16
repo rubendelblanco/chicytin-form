@@ -83,17 +83,17 @@ function create_actividad_taxonomies() {
 
 function create_localidad_taxonomies() {
     $labels = array(
-        'name'              => _x( 'Localidades/Provincias', 'taxonomy general name' ),
-        'singular_name'     => _x( 'Localidad/Provincia', 'taxonomy singular name' ),
+        'name'              => _x( 'Localidades/Provincias/Distritos', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Localidad/Provincia/Distrito', 'taxonomy singular name' ),
         'search_items'      => __( 'Buscar localidad/provincia' ),
-        'all_items'         => __( 'Todas las localidades y provincias' ),
+        'all_items'         => __( 'Todas las localidades, provincias y distritos' ),
         'parent_item'       => __( 'Parent' ),
         'parent_item_colon' => __( 'Parent:' ),
-        'edit_item'         => __( 'Editar Localidades/Provincias' ),
-        'update_item'       => __( 'Editar Localidad/Provincia' ),
-        'add_new_item'      => __( 'Añadir nueva localidad/provincia' ),
-        'new_item_name'     => __( 'Nueva Localidad/Provincia' ),
-        'menu_name'         => __( 'Localidades/Provincias' ),
+        'edit_item'         => __( 'Editar Localidades/Provincias/Distritos' ),
+        'update_item'       => __( 'Editar Localidad/Provincia/Distritos' ),
+        'add_new_item'      => __( 'Añadir nueva localidad/provincia/distrito' ),
+        'new_item_name'     => __( 'Nueva Localidad/Provincia/Distrito' ),
+        'menu_name'         => __( 'Localidades/Provincias/Distritos' ),
     );
 
     $args = array(
