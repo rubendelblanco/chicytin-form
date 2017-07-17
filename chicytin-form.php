@@ -48,7 +48,8 @@ function actividades_post() {
         'hierarchical' => false,
         'menu_position' => null,
         'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
-				'menu_icon'   => 'dashicons-admin-site'
+		'menu_icon'   => 'dashicons-admin-site',
+        'taxonomies'  => array('post_tag'),
     );
 
     register_post_type( 'Actividad', $args ); /* Registramos y a funcionar */

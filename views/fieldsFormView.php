@@ -34,7 +34,7 @@
       </select>
     </div>
     <div class="floating-box">
-      <label for="subcategoria" class=""><?php _e( 'Subcategoría: ', 'textdomain' ); ?></label>
+      <label for="subcategoria" class=""><?php _e( 'Especialidad: ', 'textdomain' ); ?></label>
       <select name="subcategoria" id="subcategoria">
           <option value="null"><?php _e( 'Todos', 'textdomain' ); ?></option>
       </select>
